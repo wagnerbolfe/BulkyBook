@@ -166,8 +166,8 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
 
                 var service = new SessionService();
                 Session session = service.Create(options);
-                _unitOfWork.OrderHeader.UpdateStripePaymentID(ShoppingCartViewModel.OrderHeader.Id, session.Id,
-                    session.PaymentIntentId);
+
+                _unitOfWork.OrderHeader.StartStripePaymentID(ShoppingCartViewModel.OrderHeader.Id, session.Id);
                 _unitOfWork.Save();
 
                 Response.Headers.Add("Location", session.Url);
@@ -191,6 +191,7 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
                 if (session.PaymentStatus.ToLower() == "paid")
                 {
                     _unitOfWork.OrderHeader.UpdateStatus(id, SD.StatusApproved, SD.PaymentStatusApproved);
+                    _unitOfWork.OrderHeader.FinishStripePaymentID(orderHeader.Id, session.PaymentIntentId);
                     _unitOfWork.Save();
                 }
             }
