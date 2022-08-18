@@ -47,7 +47,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             OrderViewModel.OrderDetail = _unitOfWork.OrderDetail.GetAll(u => u.OrderId == OrderViewModel.OrderHeader.Id, includeProperties: "Product");
 
             //stripe settings 
-            var domain = "https://localhost:44300/";
+            var domain = "https://localhost:7275/";
             var options = new SessionCreateOptions
             {
                 PaymentMethodTypes = new List<string>
